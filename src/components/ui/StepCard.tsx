@@ -1,6 +1,5 @@
 // components/StepCard.tsx
 import { ReactNode } from "react";
-import { title as titleFont } from "@/app/page";
 import { cn } from "@/lib/utils";
 interface StepCardProps {
   number: number | string;
@@ -52,7 +51,6 @@ export function StepCard({
         <h3
           className={cn(
             "text-xl md:text-2xl font-semibold tracking-tight text-foreground",
-            titleFont,
           )}
         >
           {title}
