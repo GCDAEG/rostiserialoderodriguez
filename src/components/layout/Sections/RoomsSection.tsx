@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Section } from "../Section";
 import Image from "next/image";
 import { SimpleCTAButton } from "@/components/ui/CTAButton";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface RoomsSectionProps {}
 
@@ -19,7 +19,7 @@ interface Room {
   amenities?: string[];
   size?: string;
   bedType?: string;
-  images?: string[]; // ← Nuevo: soporte para múltiples imágenes
+  images?: string[];
 }
 
 const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
@@ -53,7 +53,7 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
         "/habitaciondoble.png",
         "/habitaciondoble2.jpg",
         "/habitaciondoble3.jpg",
-      ], // Puedes agregar más
+      ],
     },
     {
       id: 1,
@@ -100,34 +100,12 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
       bedType: "Queen Size",
       images: ["/habitacionmatrimonial.png"],
     },
-    {
-      id: 3,
-      src: "/habitaciondoble.png",
-      number: "11.000",
-      suffix: "$",
-      title: "Habitación doble",
-      description:
-        "Cama queen size, baño privado con ducha caliente, vista al río, aire acondicionado y Wi-Fi.",
-      people: 2,
-      fullDescription:
-        "Habitación económica pero muy cómoda, ideal para amigos o viajeros.",
-      amenities: [
-        "2 Camas individuales",
-        "Baño privado",
-        "Aire acondicionado",
-        "Wi-Fi gratis",
-      ],
-      size: "22 m²",
-      bedType: "2 Singles",
-      images: ["/habitaciondoble.png", "/habitaciondoble-extra.jpg"],
-    },
   ];
 
   const toggleExpand = (id: number) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  // Funciones para el modal de imagen
   const openImageModal = (room: Room, index: number = 0) => {
     if (room.images && room.images.length > 0) {
       setSelectedImage(room.images[index]);
@@ -142,15 +120,27 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
     setSelectedImage(null);
   };
 
-  const nextImage = (room: Room) => {
-    if (!room.images || room.images.length <= 1) return;
+  const getActiveRoom = () => {
+    return rooms.find(
+      (r) =>
+        r.images?.some((img) => img === selectedImage) ||
+        r.src === selectedImage,
+    );
+  };
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const room = getActiveRoom();
+    if (!room?.images || room.images.length <= 1) return;
     const nextIndex = (currentImageIndex + 1) % room.images.length;
     setCurrentImageIndex(nextIndex);
     setSelectedImage(room.images[nextIndex]);
   };
 
-  const prevImage = (room: Room) => {
-    if (!room.images || room.images.length <= 1) return;
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const room = getActiveRoom();
+    if (!room?.images || room.images.length <= 1) return;
     const prevIndex =
       (currentImageIndex - 1 + room.images.length) % room.images.length;
     setCurrentImageIndex(prevIndex);
@@ -161,15 +151,17 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
     <Section height="content" id="rooms" className="bg-background">
       <div className="w-full text-center items-center flex flex-col gap-12">
         <div className="flex flex-col w-full items-center justify-center text-center gap-5">
-          <h2>Nuestras habitaciones</h2>
-          <p className="text-lg text-[--muted-foreground]">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Nuestras habitaciones
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl">
             Cabañas y habitaciones cómodas con vista al río, ideales para
             descansar en familia o pareja.
           </p>
         </div>
 
-        {/* CONTENEDOR MASONRY */}
-        <div className="w-full columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* CONTENEDOR GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full items-start">
           {rooms.map((room) => {
             const isExpanded = expandedId === room.id;
             const hasMultipleImages = (room.images?.length ?? 0) > 1;
@@ -177,59 +169,59 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
             return (
               <div
                 key={room.id}
-                className="break-inside-avoid flex flex-col gap-4 rounded-md bg-card shadow-md overflow-hidden"
+                className="flex flex-col rounded-xl bg-card shadow-lg border border-border overflow-hidden transition-all duration-300"
               >
-                {/* Imagen - Ahora es clickeable */}
+                {/* Imagen */}
                 <div
-                  className="relative w-full h-auto cursor-pointer group"
+                  className="relative w-full aspect-4/3 cursor-pointer group overflow-hidden"
                   onClick={() => openImageModal(room)}
                 >
                   <Image
                     src={room.src}
                     alt={room.title}
-                    className="object-cover w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                    width={500}
-                    height={300}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   {hasMultipleImages && (
-                    <div className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded-md">
+                    <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
                       +{room.images!.length - 1} fotos
                     </div>
                   )}
                 </div>
 
                 {/* Contenido */}
-                <div className="flex flex-col gap-4 px-3 pb-5 justify-evenly">
-                  <h3 className="text-start font-semibold tracking-tight">
-                    {room.title}
-                  </h3>
+                <div className="flex flex-col p-5 gap-4">
+                  <div className="space-y-2">
+                    <h3 className="text-xl text-start font-bold tracking-tight">
+                      {room.title}
+                    </h3>
+                    <p className="text-start text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                      {room.description}
+                    </p>
+                  </div>
 
-                  <p className="text-start leading-4 text-neutral-dark">
-                    {room.description}
-                  </p>
-
-                  <div className="flex w-full justify-between items-end">
-                    <div className="flex items-end">
-                      <p className="text-2xl text-secondary font-semibold">
+                  <div className="flex w-full justify-between items-center py-2 border-y border-border/50">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl text-primary font-bold">
                         {room.suffix}
                         {room.number}
-                      </p>
-                      <span className="text-text-secondary ml-1">/noche</span>
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        /noche
+                      </span>
                     </div>
-                    <span className="text-text-secondary">
+                    <span className="text-sm font-medium px-3 py-1 rounded-full text-text-secondary">
                       {room.people} personas
                     </span>
                   </div>
 
                   {/* Botón Ver más */}
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleExpand(room.id);
-                    }}
-                    className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                    onClick={() => toggleExpand(room.id)}
+                    className="flex items-center justify-center gap-2 text-sm font-semibold text-primary hover:underline transition-all py-1"
                   >
-                    {isExpanded ? "Ver menos" : "Ver más detalles"}
+                    {isExpanded ? "Cerrar detalles" : "Ver detalles completos"}
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
                     />
@@ -237,42 +229,53 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
 
                   {/* Sección expandible */}
                   {isExpanded && (
-                    <div className="pt-4 border-t border-border space-y-4 text-sm">
+                    <div className="pt-4 space-y-4 text-sm animate-in fade-in slide-in-from-top-2 duration-300">
                       {room.fullDescription && (
-                        <p className="leading-relaxed text-neutral-dark">
+                        <p className="leading-relaxed text-muted-foreground text-start">
                           {room.fullDescription}
                         </p>
                       )}
 
-                      {room.size && (
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Tamaño:</span>
-                          <span className="font-medium">{room.size}</span>
-                        </div>
-                      )}
+                      <div className="grid grid-cols-2 gap-3 bg-muted/30 p-3 rounded-lg">
+                        {room.size && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                              Tamaño
+                            </span>
+                            <span className="font-semibold">{room.size}</span>
+                          </div>
+                        )}
+                        {room.bedType && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                              Camas
+                            </span>
+                            <span className="font-semibold">
+                              {room.bedType}
+                            </span>
+                          </div>
+                        )}
+                      </div>
 
-                      {room.bedType && (
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            Tipo de cama:
-                          </span>
-                          <span className="font-medium">{room.bedType}</span>
-                        </div>
-                      )}
-
-                      {room.amenities && room.amenities.length > 0 && (
-                        <div>
-                          <p className="font-medium mb-2">Amenities:</p>
-                          <ul className="list-disc list-inside space-y-1 text-muted-foreground text-start w-fit">
+                      {room.amenities && (
+                        <div className="text-start">
+                          <p className="font-bold mb-2">Servicios incluidos:</p>
+                          <ul className="grid grid-cols-2 gap-y-1.5 gap-x-2">
                             {room.amenities.map((item, index) => (
-                              <li key={index}>{item}</li>
+                              <li
+                                key={index}
+                                className="flex items-center gap-2 text-muted-foreground text-xs"
+                              >
+                                <div className="w-1 h-1 rounded-full bg-primary" />
+                                {item}
+                              </li>
                             ))}
                           </ul>
                         </div>
                       )}
 
-                      <div className="pt-3">
-                        <SimpleCTAButton />
+                      <div className="pt-2">
+                        <SimpleCTAButton className="w-full" />
                       </div>
                     </div>
                   )}
@@ -285,55 +288,57 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({}) => {
 
       {/* Modal para ver imagen grande */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-5xl w-full">
-            {/* Botón cerrar */}
+        <div
+          className="fixed inset-0 bg-black/95 z-100 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={closeImageModal}
+        >
+          <div className="relative max-w-5xl w-full flex flex-col items-center">
             <button
               onClick={closeImageModal}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors"
             >
               <X size={32} />
             </button>
 
-            {/* Imagen grande */}
-            <div className="relative">
-              <Image
-                src={selectedImage}
-                alt="Habitación ampliada"
-                className="max-h-[85vh] w-auto mx-auto rounded-lg"
-                width={1200}
-                height={800}
-                priority
-              />
+            <div className="relative group w-full flex justify-center items-center">
+              {/* CAMBIO: Se utiliza la etiqueta Image de Next.js */}
+              <div className="relative max-h-[80vh] w-full flex justify-center items-center overflow-hidden rounded-lg shadow-2xl">
+                <Image
+                  src={selectedImage}
+                  alt="Habitación ampliada"
+                  width={1200} // Valor máximo de ancho deseado
+                  height={900} // Valor máximo de alto deseado
+                  className="max-h-[80vh] w-auto object-contain rounded-lg shadow-2xl"
+                  priority={true} // Carga la imagen con prioridad
+                />
+              </div>
+
+              {/* Controles de navegación */}
+              {getActiveRoom()?.images &&
+                getActiveRoom()!.images!.length > 1 && (
+                  <>
+                    <button
+                      onClick={handlePrevImage}
+                      className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all"
+                    >
+                      <ChevronLeft size={30} />
+                    </button>
+                    <button
+                      onClick={handleNextImage}
+                      className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all"
+                    >
+                      <ChevronRight size={30} />
+                    </button>
+                  </>
+                )}
             </div>
 
-            {/* Controles de navegación si hay varias imágenes */}
-            {rooms.find((r) => r.images?.includes(selectedImage))?.images
-              ?.length! > 1 && (
-              <>
-                <button
-                  onClick={() => {
-                    const room = rooms.find((r) =>
-                      r.images?.some((img) => img === selectedImage),
-                    );
-                    if (room) prevImage(room);
-                  }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
-                >
-                  ←
-                </button>
-                <button
-                  onClick={() => {
-                    const room = rooms.find((r) =>
-                      r.images?.some((img) => img === selectedImage),
-                    );
-                    if (room) nextImage(room);
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
-                >
-                  →
-                </button>
-              </>
+            {/* Contador de fotos en el modal */}
+            {getActiveRoom()?.images && (
+              <p className="text-white/60 mt-4 text-sm font-medium">
+                Imagen {currentImageIndex + 1} de{" "}
+                {getActiveRoom()?.images?.length}
+              </p>
             )}
           </div>
         </div>
