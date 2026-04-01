@@ -7,8 +7,8 @@ export type NavSection = {
 export const sections: NavSection[] = [
   { id: "hero", label: "Inicio" },
   {
-    id: "services",
-    label: "Servicios",
+    id: "products",
+    label: "Productos",
   },
   {
     id: "gallery",

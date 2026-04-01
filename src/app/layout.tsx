@@ -9,6 +9,7 @@ import ReactLenis from "lenis/react";
 import PageLoader from "./PageLoader";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { CartProvider } from "@/context/CartContext";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -74,11 +75,13 @@ export default function RootLayout({
       >
         {/* Opcional: capa extra para overlay si quieres más control */}
         <ReactLenis root>
-          <PageLoader />
-          <Navbar />
-          {children}
-          <FooterSection />
-          <ExampleMessage />
+          <CartProvider>
+            <PageLoader />
+            <Navbar />
+            {children}
+            <FooterSection />
+            <ExampleMessage />
+          </CartProvider>
         </ReactLenis>
       </body>
     </html>

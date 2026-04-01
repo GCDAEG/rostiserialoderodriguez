@@ -1,8 +1,8 @@
+"use client";
 import HeroSection from "../components/layout/Sections/HeroSection";
-import Testimonials from "../components/layout/Sections/Testimonials";
-import ServiceSection from "../components/layout/Sections/ServiceSection";
-import Gallery from "../components/layout/Sections/Gallery";
+import PrdocutCatalog from "../components/layout/Sections/ProductCatalog";
 import WhatsAppChatInput from "@/components/ui/WhatsAppChatInput";
+import { useState } from "react";
 // export const roboto = Roboto({
 //   subsets: ["latin"],
 //   display: "swap",
@@ -26,14 +26,21 @@ import WhatsAppChatInput from "@/components/ui/WhatsAppChatInput";
 // export const base = roboto.className;
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState("Todos");
+  const onCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+  };
   return (
     <main className={`min-h-screen w-full font-base bg-background`}>
-      <HeroSection />
+      <HeroSection
+        activeCategory={activeCategory}
+        onCategoryChange={onCategoryChange}
+      />
       {/* <RoomsSection /> */}
-      <ServiceSection />
-      <Gallery />
+      {/* <ServiceSection /> */}
+      <PrdocutCatalog activeCategory={activeCategory} />
       {/* <LocationSection />*/}
-      <Testimonials />
+      {/* <Testimonials /> */}
       <WhatsAppChatInput />
     </main>
   );
