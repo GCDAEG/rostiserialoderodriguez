@@ -23,7 +23,7 @@ const DesktopMenu = ({
           href="/"
           className="text-xl font-black tracking-tight text-gray-900"
         >
-          MARMOLES <span className="text-primary text-blue-600">ARG</span>
+          MARMOLES <span className="text-primary">ARG</span>
         </Link>
 
         {/* LINKS DE NAVEGACIÓN */}
