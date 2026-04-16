@@ -1,6 +1,6 @@
 // components/ui/BackgroundVideo.tsx
 import { ReactNode } from "react";
-import { Section } from "../layout/Section";
+
 import Image from "next/image";
 
 interface BackgroundVideoProps {

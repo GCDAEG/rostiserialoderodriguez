@@ -1,110 +1,96 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-import { Star, ShoppingBag, ArrowDown } from "lucide-react";
-import { Section } from "../Section";
-import { siteConfig } from "@/lib/site/siteConfig";
-import { useLenis } from "lenis/react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { MapPin, Star, Clock, Flame, ChevronRight } from "lucide-react";
+import { useLenis } from "lenis/react";
+import Section from "../Section";
 
 const HeroSection = () => {
-  const { hero } = siteConfig;
   const lenis = useLenis();
 
   return (
-    <Section
-      height="screen"
+    <section
       id="hero"
-      // Quitamos paddings extra, mantenemos el fondo y el desbordamiento oculto
-      className="bg-background border-b border-border overflow-hidden relative flex items-center"
+      className="px-4 sm:px-8 lg:px-12 py-8 md:py-12 lg:py-16 bg-white"
     >
-      {/* Círculos decorativos sutiles de fondo */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="container mx-auto max-w-xl flex flex-col gap-5 justify-center h-fit">
+        {/* HEADER DE BIENVENIDA */}
+        <div className="space-y-1 ">
+          <p className="text-[13px] text-slate-500 font-medium">
+            Hola, ¡qué bueno verte!
+          </p>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            ¿Qué comemos hoy? 👋
+          </h1>
+        </div>
 
-      {/* Contenedor principal: h-full para aprovechar el alto de la Section */}
-      <div className="container mx-auto h-full flex flex-col justify-center relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center w-full">
-          {/* COLUMNA DE TEXTO */}
-          <div className="max-w-2xl flex flex-col gap-4 lg:gap-6 order-2 lg:order-1">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 self-start bg-primary/10 border border-primary/20 text-primary px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-widest shadow-sm"
-            >
-              <Star className="size-3 lg:size-3.5 fill-primary" />
-              {hero.badge || "100% Artesanal"}
-            </motion.div>
-
-            {/* Título Principal */}
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-foreground leading-[1.1] tracking-tight"
-            >
-              {hero.title}
-            </motion.h1>
-
-            {/* Subtítulo */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-foreground/80 max-w-xl leading-relaxed"
-            >
-              {hero.subtitle}
-            </motion.p>
-
-            {/* Botones de Acción */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-3 pt-2"
-            >
-              <button
-                onClick={() => lenis?.scrollTo("#productos")}
-                className="flex items-center gap-2 bg-primary text-white px-6 py-3 lg:px-8 lg:py-4 rounded-(--radius) text-xs lg:text-sm font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-              >
-                <ShoppingBag className="size-4 lg:size-5" />
-                Ver Especialidades
-              </button>
-
-              <button
-                onClick={() => lenis?.scrollTo("#nosotros")}
-                className="flex items-center gap-2 bg-transparent text-foreground px-4 py-3 lg:px-6 lg:py-4 rounded-(--radius) text-xs lg:text-sm font-bold hover:bg-border/60 transition-all"
-              >
-                Nuestra Historia
-                <ArrowDown className="size-3.5 lg:size-4 text-primary" />
-              </button>
-            </motion.div>
+        {/* UBICACIÓN RÁPIDA */}
+        <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100 cursor-pointer active:scale-[0.98] transition-transform ">
+          <MapPin className="size-4 text-orange-500" />
+          <div className="flex flex-col">
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest leading-none">
+              Entregando en
+            </span>
+            <span className="text-[13px] font-bold text-slate-900 mt-0.5">
+              Gualeguaychú, Centro
+            </span>
           </div>
+          <ChevronRight className="size-4 text-slate-400 ml-auto" />
+        </div>
 
-          {/* COLUMNA DE IMAGEN */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            // Alturas controladas (vh) para garantizar que nunca rompa el height="screen"
-            className="relative w-full h-[35vh] sm:h-[45vh] lg:h-[65vh] max-h-150 rounded-2xl overflow-hidden shadow-xl border-4 lg:border-[6px] border-white order-1 lg:order-2"
-          >
-            <div className="absolute inset-0 bg-border flex flex-col items-center justify-center">
-              <Image
-                src="https://i.postimg.cc/4NBtpRF7/1ecb20de-08be-4471-95bd-a7dd68cf7268.png"
-                alt="Alfajores Destacados Marukis"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                className="object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-          </motion.div>
+        {/* CARD DESTACADA (Banner Promocional) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="relative aspect-[4/3] sm:aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50"
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1500&auto=format&fit=crop"
+            alt="Promo destacada"
+            fill
+            priority
+            className="object-cover"
+          />
+          {/* Overlay gradiente para texto */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent flex flex-col justify-end p-5">
+            <span className="bg-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md w-max mb-2">
+              Destacado
+            </span>
+            <h2 className="text-white text-xl font-bold leading-tight mb-1">
+              ¡Hoy sale la Double Lab con fritas!
+            </h2>
+            <p className="text-white/80 text-[13px] font-medium line-clamp-2 mb-3">
+              Sabor 100% casero. Armá tu pedido y te lo enviamos en minutos.
+            </p>
+            <button
+              onClick={() => lenis?.scrollTo("#catalog", { offset: -80 })}
+              className="bg-white text-slate-900 w-full py-3.5 rounded-xl font-bold text-[13px] active:scale-95 transition-transform shadow-sm"
+            >
+              Pedir ahora
+            </button>
+          </div>
+        </motion.div>
+
+        {/* DATOS DE SERVICIO (Pills compactos de App) */}
+        <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 pt-2 ">
+          <div className="flex-none flex items-center gap-1.5 bg-orange-50 text-orange-700 px-3.5 py-2 rounded-full border border-orange-100">
+            <Star className="size-3.5 fill-orange-500 text-orange-500" />
+            <span className="text-[13px] font-bold">4.8</span>
+            <span className="text-[12px] font-medium opacity-70">(120+)</span>
+          </div>
+          <div className="flex-none flex items-center gap-1.5 bg-slate-50 text-slate-700 px-3.5 py-2 rounded-full border border-slate-200/60">
+            <Clock className="size-3.5 text-slate-500" />
+            <span className="text-[13px] font-bold">30-40 min</span>
+          </div>
+          {/* <div className="flex-none flex items-center gap-1.5 bg-green-50 text-green-700 px-3.5 py-2 rounded-full border border-green-100">
+            <Flame className="size-3.5 text-green-600" />
+            <span className="text-[13px] font-bold">Envío $150</span>
+          </div> */}
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 

@@ -1,48 +1,110 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-border: var(--border);
-  --radius-custom: var(--radius);
-}
-
+/* PALETA DE COLORES PREMIUM (Rosticería & Food-Tech)
+  Base: Naranja intenso, crema suave y contrastes oscuros.
+*/
 :root {
-  /* Fondo con un levísimo tono rosado para mantener la calidez de pastelería boutique */
-  --background: #fdf8f8;
+  --primary: #FF5C00;         /* Naranja "Hambre" intenso */
+  --primary-foreground: #FFFFFF;
+  --background: #FFFDFB;      /* Blanco crema muy sutil */
+  --card: #FFFFFF;
+  --card-foreground: #1A1A1A;
+  --accent: #00A344;          /* Verde fresco para "Disponible" o "Agregado" */
+  --muted: #64748b;
+  --border: #F1F1F1;
   
-  /* Texto en un gris piedra muy oscuro para excelente legibilidad y contraste */
-  --foreground: #292524; 
-
-  /* Tono rosa frambuesa (pink-600) para botones, links y acentos principales */
-  --primary: #db2777; 
-
-  /* Rosa muy pálido/grisáceo para separadores y bordes de tarjetas */
-  --border: #fce7f3; 
-
-  /* Radio de bordes estándar para mantener una estructura moderna */
-  --radius: 0.5rem;
+  /* Radios de borde modernos */
+  --radius: 1.25rem;
 }
 
-button{
-  @apply cursor-pointer
+/* --- CONFIGURACIÓN PARA LENIS (Scroll Suave) --- */
+html.lenis {
+  height: auto;
 }
 
-@layer base {
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
 
-  img {
-    @apply object-cover;
-  }
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* --- ESTILOS BASE --- */
+body {
+  background-color: var(--background);
+  color: var(--card-foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "shnt";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Elimina el molesto recuadro azul al tocar en móviles */
+  -webkit-tap-highlight-color: transparent;
 }
 
 @layer components {
-  /* Tarjeta adaptada al estilo boutique */
-  .card-maruki {
-    @apply border border-border bg-[#ffffff] rounded-[--radius-custom] p-4 transition-all duration-300 hover:shadow-md hover:border-primary/40;
+  /* Botón Principal: Con sombra suave y efecto de presión */
+  .btn-primary {
+    @apply bg-[var(--primary)] text-white font-bold py-4 px-6 rounded-[var(--radius)] 
+           transition-all duration-300 ease-out active:scale-95 
+           flex items-center justify-center gap-2 
+           shadow-[0_10px_20px_-5px_rgba(255,92,0,0.3)]
+           hover:shadow-[0_15px_25px_-5px_rgba(255,92,0,0.4)]
+           disabled:opacity-50 disabled:pointer-events-none;
   }
+
+  /* Card Estilo Glass: Para el menú flotante o headers */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl shadow-black/5;
+  }
+
+  /* Cards de Producto: Elevación sutil */
+  .product-card {
+    @apply bg-white rounded-[var(--radius)] border border-[var(--border)]
+           transition-all duration-300 hover:border-[var(--primary)]/30
+           hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+  }
+
+  /* Badge de Categoría */
+  .category-pill {
+    @apply px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap
+           border border-transparent;
+  }
+
+  .category-pill-active {
+    @apply bg-[var(--primary)] text-white shadow-md shadow-orange-200;
+  }
+
+  .category-pill-inactive {
+    @apply bg-white text-slate-600 border-slate-100 hover:border-orange-200;
+  }
+
+  /* Utilidad para esconder scrollbars en el menú de categorías horizontal */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animación de "latido" para el carrito cuando hay items */
+  .cart-pulse {
+    @apply animate-pulse;
+    animation-duration: 1.5s;
+  }
+}
+
+/* --- SELECCIÓN DE TEXTO --- */
+::selection {
+  background-color: var(--primary);
+  color: white;
 }

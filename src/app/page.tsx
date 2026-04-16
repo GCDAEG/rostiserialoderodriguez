@@ -1,10 +1,10 @@
-"use client";
-import HowItWorks from "@/components/layout/Sections/HowItWorks";
+import ProductCatalog from "@/components/layout/Sections/ProductCatalog";
 import HeroSection from "../components/layout/Sections/HeroSection";
-import PrdocutCatalog from "../components/layout/Sections/ProductCatalog";
-import WhatsAppChatInput from "@/components/ui/WhatsAppChatInput";
-import { useState } from "react";
-import OurStory from "@/components/layout/Sections/OurStory";
+
+import LocationSection from "@/components/layout/Sections/LocationSection";
+import { client } from "@/sanity/client";
+import { SanityDocument } from "next-sanity";
+import { CartDrawer } from "@/components/ui/CartDrawer";
 // export const roboto = Roboto({
 //   subsets: ["latin"],
 //   display: "swap",
@@ -27,25 +27,24 @@ import OurStory from "@/components/layout/Sections/OurStory";
 // export const titleH2 = montserrat.className;
 // export const base = roboto.className;
 
-export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("Todos");
-  const onCategoryChange = (cat: string) => {
-    setActiveCategory(cat);
-  };
+const POSTS_QUERY = `*[
+  _type == "product"
+  && defined(slug.current)
+]|order(publishedAt desc)[0...12]{_id, name, slug, image, category, description, price, publishedAt}`;
+
+const options = { next: { revalidate: 30 } };
+export default async function Home() {
+  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+  console.log("los posts", posts);
   return (
     <main className={`min-h-screen w-full font-base bg-background `}>
       <HeroSection />
-      {/* <RoomsSection /> */}
-      {/* <ServiceSection /> */}
-      <PrdocutCatalog
-        activeCategory={activeCategory}
-        onCategoryChange={onCategoryChange}
-      />
-      <HowItWorks />
-      <OurStory />
-      {/* <LocationSection />*/}
+      <ProductCatalog posts={posts} />
+
+      <LocationSection />
+      <CartDrawer />
       {/* <Testimonials /> */}
-      <WhatsAppChatInput />
+      {/* <WhatsAppChatInput /> */}
     </main>
   );
 }

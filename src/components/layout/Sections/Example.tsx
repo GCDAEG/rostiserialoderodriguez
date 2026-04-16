@@ -1,16 +1,12 @@
 "use client";
 import React from "react";
-import { Section } from "../Section";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Info } from "lucide-react";
 
 const ExampleMessage = () => {
   return (
-    <Section
-      height="content"
-      className="bg-zinc-950 py-12 border-t border-white/5"
-    >
+    <section className="bg-zinc-950 py-12 border-t border-white/5">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +51,7 @@ const ExampleMessage = () => {
           </a>
         </div>
       </motion.div>
-    </Section>
+    </section>
   );
 };
 

@@ -1,48 +1,50 @@
-"use client";
+import React from "react";
 
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { cn } from "@/lib/utils";
-
-type SectionProps = {
-  id?: string;
+interface SectionProps {
   children: React.ReactNode;
   className?: string;
-  height?: "screen" | "content";
-  lazy?: boolean;
-  animate?: "fade" | "none";
-  threshold?: number;
-};
+  id?: string;
+  height?: string;
+}
 
-export function Section({
-  id,
+export default function Section({
   children,
-  className,
-  height = "content",
-  lazy = false,
-  animate = "none",
-  threshold = 0.1,
+  className = "",
+  id,
+  height,
 }: SectionProps) {
-  const ref = useRef<HTMLElement>(null);
-
-  const isInView = useInView(ref, {
-    once: true,
-    margin: "-80px",
-    amount: threshold,
-  });
-
   return (
     <section
       id={id}
-      ref={ref}
-      className={cn(
-        "relative w-screen px-5 md:px-8 lg:px-40 py-12 md:py-16 ",
-        height === "screen" && "pt-20 h-screen",
-        className,
-        animate === "fade" && isInView && "animate-fade-in",
-      )}
+      className={`
+        /* 1. Altura dinámica: Ocupa el viewport menos el Header (asumiendo h-16 o 64px) */
+        min-h-[calc(100vh-80px)]
+        
+        /* 2. Paddings Horizontales (Consistencia de márgenes laterales) */
+        px-4           /* Mobile: 16px */
+        sm:px-8        /* Tablet: 32px */
+        lg:px-12       /* Desktop: 48px */
+        
+        /* 3. Paddings Verticales (Ritmo visual y aire entre secciones) */
+        py-8           /* Mobile: 32px */
+        md:py-12       /* Tablet: 48px */
+        lg:py-16       /* Desktop: 64px */
+        
+        /* 4. Layout Base */
+        w-full
+        flex
+
+        ${height === "content" && "h-fit"}
+      
+        
+        relative
+        
+        ${className}
+      `}
     >
-      {!lazy || isInView ? children : null}
+      {/* Contenedor interno opcional para limitar el ancho máximo en pantallas ultra-wide */}
+
+      {children}
     </section>
   );
 }

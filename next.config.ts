@@ -19,7 +19,37 @@ devIndicators: false,
       {
         protocol:'https',
         hostname:'placehold.co'
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.hola.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pedix.app',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cepadevinos.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloudfront-us-east-1.images.arcpublishing.com',
+        port: '',
+      },{
+        protocol: 'https',
+        hostname: 'encrypted-tbn0.gstatic.com',
+        port: '',
+      },
+     
     ],
   },
 };

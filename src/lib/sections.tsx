@@ -1,3 +1,5 @@
+// /src/lib/sections.ts
+
 export type NavSection = {
   id: string;
   label: string;
@@ -5,9 +7,12 @@ export type NavSection = {
 };
 
 export const sections: NavSection[] = [
-  { id: "hero", label: "Inicio" },
   {
-    id: "catalog",
-    label: "Productos",
+    id: "hero",
+    label: "Inicio",
+  },
+  {
+    id: "catalog", // Coincide con el id del componente HowItWorks
+    label: "Menú",
   },
 ];
