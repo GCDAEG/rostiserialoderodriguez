@@ -23,7 +23,7 @@ const HeroSection = () => {
             Lo de Rodriguez
           </h1>
           <p className="text-[var(--muted)] font-medium italic">
-            `&quot;`Sabor casero, como en casa.`&quot;`
+            &quot;Sabor casero, como en casa.&quot;
           </p>
         </div>
 
