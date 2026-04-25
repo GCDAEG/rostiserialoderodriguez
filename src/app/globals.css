@@ -1,64 +1,53 @@
 @import "tailwindcss";
 
-/* PALETA GROMET TAKE AWAY - Identidad Visual */
+/* PALETA LO DE RODRIGUEZ - Tradición y Sabor Casero */
 :root {
-  /* Rojo-Naranja Gromet: Estimula el apetito y denota rapidez */
-  --primary: #E63946;         
+  --primary: #2D5A27;         /* Verde Oliva Profundo (Tradición) */
   --primary-foreground: #FFFFFF;
   
-  /* Color Crema/Hueso: Para que la web se sienta orgánica y no "clínica" */
-  --background: #FFFBF7;      
+  --background: #FDF8F1;      /* Crema suave (Papel manteca/madera) */
   --card: #FFFFFF;
-  --card-foreground: #1D1D1F;
+  --card-foreground: #2C2C2C;
   
-  /* Verde "Fresco": Para etiquetas de 'Hecho en el momento' o 'Disponible' */
-  --accent: #2A9D8F;          
-  --muted: #8E8E93;
-  --border: #F1E9E0;
+  --accent: #BC2F32;          /* Rojo Tomate (Pasión por la cocina) */
+  --muted: #7A7167;
+  --border: #E8DCCB;
   
-  --radius: 1.25rem;
+  --radius: 1rem;             /* Bordes más clásicos, no tan redondeados como Gromet */
 }
 
-/* --- ESTILOS DE COMPONENTES GROMET --- */
 @layer components {
-  /* El botón de Gromet: Con un gradiente sutil para que parezca "pulsable" */
+  /* Botón Principal: Estilo rústico pero moderno */
   .btn-primary {
-    @apply bg-gradient-to-br from-[#E63946] to-[#D62828] text-white font-bold py-4 px-6 
+    @apply bg-[var(--primary)] text-white font-bold py-4 px-6 
            rounded-[var(--radius)] transition-all duration-300 active:scale-95 
            flex items-center justify-center gap-2 
-           shadow-[0_10px_20px_-5px_rgba(230,57,70,0.4)];
+           shadow-[0_8px_0_0_#1E3D1A] /* Efecto de botón 3D clásico */
+           active:shadow-none active:translate-y-[4px];
   }
 
-  /* Glass Card Gromet: Más cálida y con desenfoque profundo */
+  /* Glass Card: Más opaca para lectura fácil sobre fondos de comida */
   .glass-card {
-    @apply bg-white/80 backdrop-blur-2xl border border-white/50 shadow-2xl shadow-orange-900/5;
+    @apply bg-white/90 backdrop-blur-md border border-[var(--border)] shadow-xl;
   }
 
-  /* Category Pills: Estilo moderno para el menú de navegación */
+  /* Category Pills */
   .category-pill {
-    @apply px-5 py-2.5 rounded-full font-bold transition-all whitespace-nowrap
-           border-2 text-sm tracking-tight;
+    @apply px-5 py-2 rounded-xl font-bold transition-all whitespace-nowrap
+           border-2 text-sm;
   }
 
   .category-pill-active {
-    @apply bg-[var(--primary)] text-white border-[var(--primary)] shadow-lg shadow-red-200;
+    @apply bg-[var(--accent)] text-white border-[var(--accent)] shadow-md;
   }
 
   .category-pill-inactive {
-    @apply bg-white text-[var(--muted)] border-[var(--border)] hover:border-[var(--primary)]/30;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    @apply bg-white text-[var(--muted)] border-[var(--border)] hover:bg-[var(--background)];
   }
 }
 
 body {
   background-color: var(--background);
   color: var(--card-foreground);
-  -webkit-tap-highlight-color: transparent;
+  font-family: 'Georgia', serif; /* O la que elijas para el toque tradicional */
 }

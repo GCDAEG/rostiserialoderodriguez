@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Plus, ChevronRight, ShoppingCart, Flame } from "lucide-react";
+import { Plus, ChevronRight, ShoppingCart, Utensils } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
@@ -30,32 +30,33 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ posts }) => {
     <Section
       height="content"
       id="catalog"
-      className="bg-[var(--background)] pt-8 pb-20"
+      className="bg-[var(--background)] pt-12 pb-24"
     >
       <div className="container mx-auto max-w-2xl lg:max-w-3xl px-0">
         {categories.map((category) => (
-          <div key={category as string} className="mb-12 last:mb-0">
-            {/* TÍTULO DE CATEGORÍA GROMET STYLE */}
-            <div className="flex items-end justify-between mb-6 px-4">
+          <div key={category as string} className="mb-14 last:mb-0">
+            {/* TÍTULO DE CATEGORÍA ESTILO BODEGÓN */}
+            <div className="flex items-center justify-between mb-8 ">
               <div className="flex flex-col">
-                <span className="text-[10px] font-black text-[var(--primary)] uppercase tracking-[0.2em] mb-1">
-                  Menú Gromet
+                <span className="text-[11px] font-bold text-[var(--accent)] uppercase tracking-[0.3em] mb-1">
+                  Especialidades
                 </span>
-                <h2 className="text-2xl font-black text-[var(--card-foreground)] leading-none tracking-tighter italic uppercase">
+                <h2 className="text-3xl font-serif font-black text-[var(--primary)] leading-none tracking-tight">
                   {category as string}
                 </h2>
+                <div className="h-1.5 w-12 bg-[var(--accent)] mt-2 rounded-full" />
               </div>
-              <button className="text-[11px] font-black text-[var(--muted)] uppercase tracking-widest flex items-center gap-1 active:text-[var(--primary)] transition-colors">
-                Explorar{" "}
+              <button className="text-[11px] font-bold text-[var(--muted)] uppercase tracking-widest flex items-center gap-1.5 active:text-[var(--primary)] transition-colors border-b border-[var(--border)] pb-1">
+                Ver todo{" "}
                 <ChevronRight
-                  className="size-3 text-[var(--primary)]"
-                  strokeWidth={3}
+                  className="size-3 text-[var(--accent)]"
+                  strokeWidth={4}
                 />
               </button>
             </div>
 
             {/* SCROLL HORIZONTAL (Native App Feel) */}
-            <div className="flex gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory px-4 pb-4">
+            <div className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory px-6 pb-6">
               {getProductsByCategory(category as string).map((product) => {
                 const pId = product.id;
                 const pName = product.name;
@@ -64,29 +65,29 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ posts }) => {
                 return (
                   <motion.div
                     key={pId}
-                    whileTap={{ scale: 0.97 }}
-                    className="snap-start shrink-0 w-[170px] sm:w-[190px] flex flex-col group"
+                    whileTap={{ scale: 0.96 }}
+                    className="snap-start shrink-0 w-[180px] sm:w-[210px] flex flex-col group"
                   >
-                    {/* CARD DE IMAGEN */}
-                    <div className="relative aspect-[1/1.1] w-full mb-4">
+                    {/* CARD DE IMAGEN RÚSTICA */}
+                    <div className="relative aspect-square w-full mb-5">
                       {product.image && (
                         <Image
                           src={product.image}
                           alt={pName}
                           fill
-                          sizes="200px"
-                          className="object-cover rounded-[2rem] shadow-xl shadow-orange-900/5 transition-transform duration-500 group-hover:scale-105 border border-white"
+                          sizes="250px"
+                          className="object-cover rounded-[2.5rem] shadow-xl shadow-green-900/10 transition-all duration-500 group-hover:scale-105 border-[6px] border-white"
                         />
                       )}
 
-                      {/* BADGE DE PRECIO FLOTANTE */}
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-white/50 shadow-sm">
-                        <p className="text-[13px] font-black text-[var(--card-foreground)] tracking-tighter">
+                      {/* BADGE DE PRECIO (Estilo Etiqueta) */}
+                      <div className="absolute -top-2 -left-2 bg-[var(--accent)] text-white px-4 py-2 rounded-2xl shadow-lg rotate-[-5deg]">
+                        <p className="text-sm font-black tracking-tighter">
                           ${pPrice.toLocaleString("es-AR")}
                         </p>
                       </div>
 
-                      {/* BOTÓN SUMAR ESTILO APP PREMIUM */}
+                      {/* BOTÓN SUMAR (Estilo Sello) */}
                       <button
                         onClick={() =>
                           addToCart({
@@ -97,27 +98,23 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ posts }) => {
                             image: product.image,
                           })
                         }
-                        className="absolute -bottom-2 right-2 size-12 bg-[var(--primary)] text-white rounded-2xl shadow-lg shadow-red-200 flex items-center justify-center active:scale-90 transition-all border-4 border-[var(--background)] group-active:bg-[var(--accent)]"
+                        className="btn-primary absolute -bottom-3 right-0 size-14 rounded-2xl shadow-none bg-[var(--primary)] active:translate-y-0"
                       >
-                        <Plus className="size-6 text-white" strokeWidth={3} />
+                        <Plus className="size-7 text-white" strokeWidth={3} />
                       </button>
-
-                      {/* INDICADOR DE POPULARIDAD (Opcional) */}
-                      {pPrice > 5000 && (
-                        <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md p-2 rounded-xl">
-                          <Flame className="size-3 text-[var(--primary)] fill-[var(--primary)]" />
-                        </div>
-                      )}
                     </div>
 
                     {/* DETALLES DEL PRODUCTO */}
-                    <div className="px-2">
-                      <h3 className="text-[15px] font-black text-[var(--card-foreground)] leading-snug line-clamp-2 tracking-tight italic uppercase italic">
+                    <div className="px-1 text-center sm:text-left">
+                      <h3 className="text-lg font-serif font-black text-[var(--card-foreground)] leading-tight tracking-tight mb-1">
                         {pName}
                       </h3>
-                      <p className="text-[11px] font-medium text-[var(--muted)] leading-tight mt-1 line-clamp-2">
-                        Preparado en el momento. Ideal para compartir.
-                      </p>
+                      <div className="flex items-center justify-center sm:justify-start gap-1.5 text-[var(--muted)]">
+                        <Utensils className="size-3 text-[var(--accent)]" />
+                        <p className="text-[12px] font-bold uppercase tracking-tighter">
+                          Porción Abundante
+                        </p>
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -127,27 +124,13 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ posts }) => {
         ))}
       </div>
 
-      {/* CARRITO FLOTANTE INTEGRADO (VISUAL) */}
-      {/* <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xs px-4 z-[450] pointer-events-none">
-        <motion.div
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          className="btn-primary pointer-events-auto h-16 w-full rounded-2xl shadow-2xl flex items-center justify-between px-6 border-t-2 border-white/20"
-        >
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <ShoppingCart className="size-6" />
-              <span className="absolute -top-2 -right-2 size-5 bg-white text-[var(--primary)] text-[10px] font-black rounded-full flex items-center justify-center border-2 border-[var(--primary)] cart-pulse">
-                2
-              </span>
-            </div>
-            <span className="text-[14px] font-black uppercase tracking-tight italic">
-              Mi Pedido
-            </span>
-          </div>
-          <span className="text-lg font-black tracking-tighter">$12.500</span>
-        </motion.div>
-      </div> */}
+      {/* FOOTER DEL CATÁLOGO */}
+      <div className="mt-8 flex flex-col items-center gap-2 opacity-50">
+        <div className="h-px w-16 bg-[var(--border)]" />
+        <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.4em]">
+          Cocina Tradicional
+        </p>
+      </div>
     </Section>
   );
 };

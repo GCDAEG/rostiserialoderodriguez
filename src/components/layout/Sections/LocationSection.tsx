@@ -6,86 +6,87 @@ import {
   MapPin,
   Clock,
   Navigation,
-  ExternalLink,
+  UtensilsCrossed,
   Info,
   CheckCircle2,
-  Store,
+  ChefHat,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function LocationSection() {
-  // Datos Reales de Gromet Take Away en Concordia
-  const ADDRESS = "Mitre & San Juan";
-  const CITY = "Concordia, Entre Ríos";
-  const MAPS_URL =
-    "https://www.google.com/maps/search/?api=1&query=Gromet+Take+Away+Concordia";
+  // Datos para Lo de Rodriguez
+  const ADDRESS = "Ubicación del Local";
+  const CITY = "Ciudad, Entre Ríos";
+  const MAPS_URL = "https://www.google.com/maps";
 
   return (
     <Section
       id="ubicacion"
-      className="bg-[var(--background)] py-12"
+      className="bg-[var(--background)] py-16"
       height="content"
     >
-      <div className="container mx-auto max-w-2xl lg:max-w-3xl flex flex-col gap-6">
-        {/* HEADER DE SECCIÓN GROMET STYLE */}
-        <div className="flex items-end justify-between px-1">
+      <div className="container mx-auto max-w-2xl lg:max-w-3xl flex flex-col gap-8">
+        {/* HEADER ESTILO BODEGÓN */}
+        <div className="flex items-center justify-between px-2">
           <div className="flex flex-col">
-            <span className="text-[10px] font-black text-[var(--primary)] uppercase tracking-[0.2em] mb-1">
-              ¿Dónde estamos?
+            <span className="text-[11px] font-bold text-[var(--accent)] uppercase tracking-[0.3em] mb-1">
+              ¿Dónde buscás tu pedido?
             </span>
-            <h2 className="text-2xl font-black text-[var(--card-foreground)] tracking-tighter italic uppercase">
-              Punto de Retiro
+            <h2 className="text-3xl font-serif font-black text-[var(--primary)] tracking-tight italic">
+              Nuestra Cocina
             </h2>
           </div>
-          <span className="text-[11px] font-black text-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1.5 rounded-lg uppercase tracking-wider border border-[var(--accent)]/20 animate-pulse">
-            Abierto ahora
-          </span>
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-[var(--border)] shadow-sm">
+            <div className="size-2 bg-[var(--accent)] rounded-full animate-pulse" />
+            <span className="text-[11px] font-bold text-[var(--card-foreground)] uppercase">
+              Abierto ahora
+            </span>
+          </div>
         </div>
 
-        {/* MAPA Y DIRECCIÓN CARD */}
+        {/* MAPA CARD RÚSTICA */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white rounded-[2.5rem] border border-[var(--border)] overflow-hidden shadow-2xl shadow-orange-900/5"
+          className="bg-white rounded-[2rem] border-2 border-[var(--border)] overflow-hidden shadow-xl"
         >
-          {/* MOCK DE MAPA CON OVERLAY DE MARCA */}
+          {/* MOCK DE MAPA */}
           <div
             onClick={() => window.open(MAPS_URL, "_blank")}
-            className="relative aspect-[21/9] bg-slate-200 cursor-pointer group overflow-hidden"
+            className="relative aspect-video bg-slate-100 cursor-pointer group overflow-hidden"
           >
             <Image
-              src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000&auto=format&fit=crop"
-              alt="Mapa Concordia"
+              src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=1000"
+              alt="Ubicación Lo de Rodriguez"
               fill
-              className="object-cover opacity-60 mix-blend-luminosity transition-transform duration-1000 group-hover:scale-110"
+              className="object-cover opacity-50 grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
             />
 
-            {/* Pin Flotante Gromet */}
+            {/* Marcador Estilo Chef */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="bg-[var(--primary)] p-4 rounded-3xl shadow-[0_15px_30px_rgba(230,57,70,0.4)] text-white"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="bg-[var(--primary)] p-5 rounded-full shadow-[0_0_40px_rgba(45,90,39,0.4)] text-white relative z-10"
               >
-                <Store className="size-8" strokeWidth={2.5} />
+                <ChefHat className="size-8" />
               </motion.div>
+              <div className="absolute size-20 bg-[var(--primary)]/20 rounded-full animate-ping" />
             </div>
-
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent" />
           </div>
 
-          {/* DATOS DE LA DIRECCIÓN */}
-          <div className="p-8 flex flex-col gap-6">
-            <div className="flex items-start gap-4">
-              <div className="bg-[var(--background)] p-3 rounded-2xl border border-[var(--border)]">
-                <MapPin className="size-6 text-[var(--primary)]" />
+          {/* DATOS DIRECCIÓN */}
+          <div className="p-8 flex flex-col gap-6 bg-white">
+            <div className="flex items-center gap-5">
+              <div className="bg-[var(--background)] p-4 rounded-2xl border-2 border-[var(--border)] text-[var(--primary)]">
+                <MapPin className="size-7" />
               </div>
               <div className="flex flex-col">
-                <p className="text-xl font-black text-[var(--card-foreground)] leading-none tracking-tight italic uppercase">
+                <p className="text-2xl font-serif font-bold text-[var(--card-foreground)] leading-none">
                   {ADDRESS}
                 </p>
-                <p className="text-sm font-bold text-[var(--muted)] mt-1">
+                <p className="text-sm font-bold text-[var(--muted)] mt-1 tracking-wide">
                   {CITY}
                 </p>
               </div>
@@ -93,30 +94,34 @@ export default function LocationSection() {
 
             <button
               onClick={() => window.open(MAPS_URL, "_blank")}
-              className="btn-primary w-full shadow-red-600/10"
+              className="btn-primary w-full text-base font-serif"
             >
-              Abrir en Google Maps <Navigation className="size-4 fill-white" />
+              Cómo llegar a lo de Rodriguez{" "}
+              <Navigation className="size-4 fill-white ml-2" />
             </button>
           </div>
         </motion.div>
 
-        {/* INFO EXTRA STYLE APP */}
-        <div className="grid grid-cols-1 gap-3">
+        {/* INFO DE SERVICIO */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-white rounded-3xl border border-[var(--border)] p-5 flex items-center gap-5 shadow-sm"
+            className="bg-white rounded-3xl border-2 border-[var(--border)] p-6 flex items-center gap-5"
           >
-            <div className="size-14 bg-[var(--background)] rounded-2xl flex items-center justify-center shrink-0 border border-[var(--border)] text-[var(--primary)]">
+            <div className="size-14 bg-[var(--primary)]/10 rounded-2xl flex items-center justify-center shrink-0 text-[var(--primary)]">
               <Clock className="size-7" strokeWidth={2.5} />
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black text-[var(--muted)] uppercase tracking-widest leading-none mb-1">
-                Horarios de atención
+              <span className="text-[10px] font-black text-[var(--muted)] uppercase tracking-widest mb-1">
+                Horarios
               </span>
-              <span className="text-lg font-black text-[var(--card-foreground)] tracking-tight italic">
-                Lun a Dom: 20:00 — 00:30
+              <span className="text-base font-bold text-[var(--card-foreground)] leading-tight">
+                Mediodía y Noche <br />
+                <span className="text-[var(--accent)] italic">
+                  11:30 - 14:30 | 19:30 - 23:30
+                </span>
               </span>
             </div>
           </motion.div>
@@ -125,32 +130,30 @@ export default function LocationSection() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-white rounded-3xl border border-[var(--border)] p-5 flex items-center gap-5 shadow-sm"
+            className="bg-white rounded-3xl border-2 border-[var(--border)] p-6 flex items-center gap-5"
           >
             <div className="size-14 bg-[var(--accent)]/10 rounded-2xl flex items-center justify-center shrink-0 text-[var(--accent)]">
-              <Info className="size-7" strokeWidth={2.5} />
+              <UtensilsCrossed className="size-7" strokeWidth={2.5} />
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black text-[var(--muted)] uppercase tracking-widest leading-none mb-1">
-                Importante
+              <span className="text-[10px] font-black text-[var(--muted)] uppercase tracking-widest mb-1">
+                El Servicio
               </span>
-              <span className="text-md font-bold text-[var(--card-foreground)] leading-tight">
-                Los pedidos demoran 15-25 min. Pagá al retirar.
+              <span className="text-base font-bold text-[var(--card-foreground)] leading-tight">
+                Porciones para compartir y sabor 100% casero.
               </span>
             </div>
           </motion.div>
         </div>
 
-        {/* FOOTER DE CONFIANZA */}
-        <div className="mt-4 py-6 border-t border-[var(--border)] flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 text-[var(--accent)]">
+        {/* SELLO DE LA CASA */}
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-2 text-[var(--primary)] font-serif font-black italic">
             <CheckCircle2 className="size-5" />
-            <span className="text-sm font-black uppercase italic tracking-tighter">
-              Gromet Oficial • Concordia
-            </span>
+            <span>Rotisería de Familia</span>
           </div>
-          <p className="text-[10px] text-[var(--muted)] font-bold text-center px-8 uppercase tracking-[0.2em] leading-relaxed">
-            Diseñado para optimizar tu tiempo y nuestra cocina.
+          <p className="text-[11px] text-[var(--muted)] font-bold text-center px-10 uppercase tracking-[0.3em] leading-relaxed">
+            Cocinamos cada plato como si fuera para nuestra propia mesa.
           </p>
         </div>
       </div>
