@@ -125,12 +125,12 @@ const ProductCatalog: React.FC<ProductCatalogProps> = ({ posts }) => {
       </div>
 
       {/* FOOTER DEL CATÁLOGO */}
-      <div className="mt-8 flex flex-col items-center gap-2 opacity-50">
+      {/* <div className="mt-8 flex flex-col items-center gap-2 opacity-50">
         <div className="h-px w-16 bg-[var(--border)]" />
         <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.4em]">
           Cocina Tradicional
         </p>
-      </div>
+      </div> */}
     </Section>
   );
 };
